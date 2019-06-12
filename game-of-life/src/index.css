@@ -1,13 +1,6 @@
 .game-row {
   height: 22px;
 }
-.square {
-  border: 1px solid black;
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  /*background-color: #61dafb;*/
-}
 .live {
   border: 1px solid black;
   width: 20px;
