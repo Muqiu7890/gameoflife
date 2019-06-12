@@ -118,18 +118,23 @@ class App extends Component {
     }
 
     pauseGame() {
-        this.setState({pause: true})
+        if (this.state.pause) {
+            this.setState({pause: false}, () => {
+                this.updateInterval(this.transform)
+            })
+        } else {
+            this.setState({pause: true}, () => {
+                clearInterval(this.state.timerId);
+            })
+        }
+
     }
 
     updateInterval(callback) {
-        if (this.state.pause) {
-            clearInterval(this.state.timerId);
-        }
         let timerId = setInterval(() => {
             callback()
-        },1000)
+        }, 1000)
         this.setState({timerId});
-
     }
 
 
@@ -147,7 +152,7 @@ class App extends Component {
         return (
             <div>
                 <button onClick={this.startGame.bind(this)}>start</button>
-                <button onClick={this.pauseGame.bind(this)}>pause</button>
+                <button onClick={this.pauseGame.bind(this)}>{this.state.pause ? 'continue' : 'pause'}</button>
                 <button onClick={this.nextStatus.bind(this)}>next</button>
                 行数：<input value={this.state.rows} onChange={this.initRows.bind(this)}/>
                 列数：<input value={this.state.cols} onChange={this.initCols.bind(this)}/>
