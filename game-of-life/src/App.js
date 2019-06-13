@@ -7,11 +7,11 @@ class App extends Component {
         super(props);
         this.state = {
             cellMatrix: [],
-            rows: 3,
-            cols: 3,
-            displayMatrix: false,
+            rows: 100,
+            cols: 100,
             timerId: 0,
-            pause: false
+            pause: false,
+            displayMatrix: false
         };
 
         this.initMatrix = this.initMatrix.bind(this);
@@ -22,9 +22,9 @@ class App extends Component {
      * 随机初始化矩阵信息
      */
     initMatrix() {
-        let matrix = new Array(this.state.rows);
+        let matrix = [];
         for (let i = 0; i < this.state.rows; i++) {
-            matrix[i] = new Array(this.state.cols);
+            matrix[i] = [];
             for (let j = 0; j < this.state.cols; j++) {
                 matrix[i][j] = this.random();
             }
@@ -40,41 +40,41 @@ class App extends Component {
         return 0;
     }
 
-
     //统计周围细胞数
     findRoundCell(x, y) {
         let num = 0;
+        const {cellMatrix, cols, rows} = this.state
         //左上
         if (x > 0 && y > 0) {
-            num += this.state.cellMatrix[x - 1][y - 1];
+            num += cellMatrix[x - 1][y - 1];
         }
         //正上
         if (x > 0) {
-            num += this.state.cellMatrix[x - 1][y];
+            num += cellMatrix[x - 1][y];
         }
         //右上
-        if (x > 0 && y + 1 < this.state.cols) {
-            num += this.state.cellMatrix[x - 1][y + 1];
+        if (x > 0 && y + 1 < cols) {
+            num += cellMatrix[x - 1][y + 1];
         }
         //左
         if (y > 0) {
-            num += this.state.cellMatrix[x][y - 1];
+            num += cellMatrix[x][y - 1];
         }
         //右
-        if (y + 1 < this.state.cols) {
-            num += this.state.cellMatrix[x][y + 1];
+        if (y + 1 < cols) {
+            num += cellMatrix[x][y + 1];
         }
         //左下
-        if (x + 1 < this.state.rows && y > 0) {
-            num += this.state.cellMatrix[x + 1][y - 1];
+        if (x + 1 < rows && y > 0) {
+            num += cellMatrix[x + 1][y - 1];
         }
         //下
-        if (x + 1 < this.state.rows) {
-            num += this.state.cellMatrix[x + 1][y];
+        if (x + 1 < rows) {
+            num += cellMatrix[x + 1][y];
         }
         //右下
-        if (x + 1 < this.state.rows && y + 1 < this.state.cols) {
-            num += this.state.cellMatrix[x + 1][y + 1];
+        if (x + 1 < rows && y + 1 < cols) {
+            num += cellMatrix[x + 1][y + 1];
 
         }
         return num;
@@ -87,16 +87,17 @@ class App extends Component {
      * 2. 对于周围活着的细胞为2的情况， 下一状态与上一状态一样。
      */
     transform() {
-        let nextMatrix = new Array(this.state.rows);
-        for (let x = 0; x < this.state.rows; x++) {
-            nextMatrix[x] = new Array(this.state.cols);
-            for (let y = 0; y < this.state.cols; y++) {
+        let nextMatrix = [];
+        const {rows, cols, cellMatrix} = this.state;
+        for (let x = 0; x < rows; x++) {
+            nextMatrix[x] = [];
+            for (let y = 0; y < cols; y++) {
                 let currentNum = this.findRoundCell(x, y)
                 //若周围细胞数为3 存活
                 if (currentNum === 3) {
                     nextMatrix[x][y] = 1
                 } else if (currentNum === 2) { // 为2 状态不变
-                    nextMatrix[x][y] = this.state.cellMatrix[x][y]
+                    nextMatrix[x][y] = cellMatrix[x][y]
                 } else { // 其他（小于2 大于3） 死亡
                     nextMatrix[x][y] = 0
                 }
@@ -108,9 +109,8 @@ class App extends Component {
     startGame() {
         this.initMatrix()
         this.setState({displayMatrix: true}, () => {
-            this.updateInterval(this.transform)
+            this.updateInterval('low',this.transform)
         })
-
     }
 
     nextStatus() {
@@ -120,7 +120,7 @@ class App extends Component {
     pauseGame() {
         if (this.state.pause) {
             this.setState({pause: false}, () => {
-                this.updateInterval(this.transform)
+                this.updateInterval('fast',this.transform)
             })
         } else {
             this.setState({pause: true}, () => {
@@ -130,11 +130,25 @@ class App extends Component {
 
     }
 
-    updateInterval(callback) {
-        let timerId = setInterval(() => {
-            callback()
-        }, 1000)
-        this.setState({timerId});
+    updateInterval(status,callback) {
+        switch(status){
+            case 'low':
+                clearInterval(this.state.timerId);
+                this.setState({timerId: setInterval(function () {callback()}, 1000)});
+                break;
+            case 'middle':
+                clearInterval(this.state.timerId);
+                this.setState({timerId: setInterval(function () {callback()}, 500)});
+                break;
+            case 'fast':
+                clearInterval(this.state.timerId);
+                this.setState({timerId: setInterval(function () {callback()}, 300)});
+                break;
+        }
+        // let timerId = setInterval(() => {
+        //     callback()
+        // }, status)
+        // this.setState({timerId});
     }
 
 
@@ -146,30 +160,32 @@ class App extends Component {
         this.setState({cols: e.target.value})
     }
 
-
     //渲染页面
     render() {
+        const {pause, rows, cellMatrix, cols, displayMatrix} = this.state
         return (
-            <div>
-                <button onClick={this.startGame.bind(this)}>start</button>
-                <button onClick={this.pauseGame.bind(this)}>{this.state.pause ? 'continue' : 'pause'}</button>
-                <button onClick={this.nextStatus.bind(this)}>next</button>
-                行数：<input value={this.state.rows} onChange={this.initRows.bind(this)}/>
-                列数：<input value={this.state.cols} onChange={this.initCols.bind(this)}/>
-
+            <div className='game-of-life'>
+                <div className='game-title'>Game of Life</div>
+                <button className='game-button' onClick={this.startGame.bind(this)}>start</button>
+                <button className='game-button' onClick={this.pauseGame.bind(this)}>{pause ? 'continue' : 'pause'}</button>
+                <button className='game-button' onClick={this.nextStatus.bind(this)}>next</button>
+                <span className='list-item'>行数：</span><input value={rows} onChange={this.initRows.bind(this)}/>
+                <span className='list-item'>列数：</span><input value={cols} onChange={this.initCols.bind(this)}/>
+                <span className='list-item'>变化速度：</span><button className='game-button' onClick={this.updateInterval.bind(this,'low',this.transform)}>low</button>
+                <button className='game-button' onClick={this.updateInterval.bind(this,'middle',this.transform)}>middle</button>
+                <button className='game-button' onClick={this.updateInterval.bind(this,'fast',this.transform)}>fast</button>
                 {
-                    this.state.displayMatrix && this.state.cellMatrix.map((row, i) =>
+                    cellMatrix.map((row, i) =>
                         <div key={i} className="game-row">
                             {
                                 row.map((col, j) =>
                                     <div key={j}
-                                         className={'square ' + (this.state.cellMatrix[i][j] ? 'live' : 'dead')}
+                                         className={'square ' + (cellMatrix[i][j] ? 'live' : 'dead')}
                                          id={i * this.state.cols + j}/>
                                 )}
                         </div>
                     )
                 }
-
             </div>
         );
     }

@@ -1,17 +1,42 @@
+body {
+    background: cadetblue;
+}
+
+.game-title {
+    font-size: 40px;
+}
+
+.game-button {
+
+}
+
+.list-item {
+    color: white;
+    margin-left: 50px;
+}
+
+.game-of-life {
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}
+
 .game-row {
-  height: 22px;
+    height: 12px;
 }
+
 .live {
-  border: 1px solid black;
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  background-color: #61dafb;
+    border: 1px solid black;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-color: yellow; /* */
 }
+
 .dead {
-  border: 1px solid black;
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  background-color: antiquewhite;
+    border: 1px solid black;
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-color: cadetblue;
 }
