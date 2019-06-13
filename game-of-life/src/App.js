@@ -6,12 +6,11 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cellMatrix: [],
-            rows: 100,
-            cols: 100,
-            timerId: 0,
-            pause: false,
-            displayMatrix: false
+            cellMatrix: [],  // 细胞初始状态的矩阵
+            rows: 100,  // 矩阵的行
+            cols: 100,  // 矩阵的列
+            timerId: 0, // 定时器标识
+            pause: false //暂停标识
         };
 
         this.initMatrix = this.initMatrix.bind(this);
@@ -41,6 +40,10 @@ class App extends Component {
     }
 
     //统计周围细胞数
+    // * * *
+    // * x *
+    // * * *
+    // 计算出x位置周围存活的细胞数
     findRoundCell(x, y) {
         let num = 0;
         const {cellMatrix, cols, rows} = this.state
@@ -106,21 +109,30 @@ class App extends Component {
         this.setState({cellMatrix: nextMatrix})
     }
 
+    /**
+     * 开始执行
+     *  1. 初始化矩阵
+     *  2. 触发间歇调用
+     */
     startGame() {
         this.initMatrix()
-        this.setState({displayMatrix: true}, () => {
-            this.updateInterval('low',this.transform)
-        })
+        this.updateInterval('low', this.transform)
     }
 
+    /**
+     * 下一次状态
+     */
     nextStatus() {
         this.transform()
     }
 
+    /**
+     * 暂停状态的变化
+     */
     pauseGame() {
         if (this.state.pause) {
             this.setState({pause: false}, () => {
-                this.updateInterval('fast',this.transform)
+                this.updateInterval('fast', this.transform)
             })
         } else {
             this.setState({pause: true}, () => {
@@ -130,50 +142,75 @@ class App extends Component {
 
     }
 
-    updateInterval(status,callback) {
-        switch(status){
+    /**
+     * 根据按钮改变更新的速度
+     * @param status
+     * @param callback
+     */
+    updateInterval(status, callback) {
+        clearInterval(this.state.timerId);
+        switch (status) {
             case 'low':
-                clearInterval(this.state.timerId);
-                this.setState({timerId: setInterval(function () {callback()}, 1000)});
+                this.setState({
+                    timerId: setInterval(function () {
+                        callback()
+                    }, 1000)
+                });
                 break;
             case 'middle':
-                clearInterval(this.state.timerId);
-                this.setState({timerId: setInterval(function () {callback()}, 500)});
+                this.setState({
+                    timerId: setInterval(function () {
+                        callback()
+                    }, 500)
+                });
                 break;
             case 'fast':
-                clearInterval(this.state.timerId);
-                this.setState({timerId: setInterval(function () {callback()}, 300)});
+                this.setState({
+                    timerId: setInterval(function () {
+                        callback()
+                    }, 300)
+                });
                 break;
         }
-        // let timerId = setInterval(() => {
-        //     callback()
-        // }, status)
-        // this.setState({timerId});
     }
 
 
+    /**
+     * 初始化 行
+     * @param e
+     */
     initRows(e) {
         this.setState({rows: e.target.value})
     }
 
+    /**
+     * 初始化列
+     * @param e
+     */
     initCols(e) {
         this.setState({cols: e.target.value})
     }
 
     //渲染页面
     render() {
-        const {pause, rows, cellMatrix, cols, displayMatrix} = this.state
+        const {pause, rows, cellMatrix, cols} = this.state
         return (
             <div className='game-of-life'>
                 <div className='game-title'>Game of Life</div>
                 <button className='game-button' onClick={this.startGame.bind(this)}>start</button>
-                <button className='game-button' onClick={this.pauseGame.bind(this)}>{pause ? 'continue' : 'pause'}</button>
+                <button className='game-button'
+                        onClick={this.pauseGame.bind(this)}>{pause ? 'continue' : 'pause'}</button>
                 <button className='game-button' onClick={this.nextStatus.bind(this)}>next</button>
                 <span className='list-item'>行数：</span><input value={rows} onChange={this.initRows.bind(this)}/>
                 <span className='list-item'>列数：</span><input value={cols} onChange={this.initCols.bind(this)}/>
-                <span className='list-item'>变化速度：</span><button className='game-button' onClick={this.updateInterval.bind(this,'low',this.transform)}>low</button>
-                <button className='game-button' onClick={this.updateInterval.bind(this,'middle',this.transform)}>middle</button>
-                <button className='game-button' onClick={this.updateInterval.bind(this,'fast',this.transform)}>fast</button>
+                <span className='list-item'>变化速度：</span>
+                <button className='game-button' onClick={this.updateInterval.bind(this, 'low', this.transform)}>low
+                </button>
+                <button className='game-button'
+                        onClick={this.updateInterval.bind(this, 'middle', this.transform)}>middle
+                </button>
+                <button className='game-button' onClick={this.updateInterval.bind(this, 'fast', this.transform)}>fast
+                </button>
                 {
                     cellMatrix.map((row, i) =>
                         <div key={i} className="game-row">
