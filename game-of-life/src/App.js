@@ -7,8 +7,8 @@ class App extends Component {
         super(props);
         this.state = {
             cellMatrix: [],  // 细胞初始状态的矩阵
-            rows: 40,  // 矩阵的行
-            cols: 100,  // 矩阵的列
+            rows: 0,  // 矩阵的行
+            cols: 0,  // 矩阵的列
             timerId: 0, // 定时器标识
             pause: false //暂停标识
         };
@@ -116,7 +116,9 @@ class App extends Component {
      */
     startGame() {
         this.initMatrix()
-        this.updateInterval('low', this.transform)
+        this.setState({pause: false}, () => {
+            this.updateInterval('low', this.transform)
+        })
     }
 
     /**
