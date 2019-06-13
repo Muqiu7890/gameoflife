@@ -7,10 +7,6 @@ body {
     font-size: 40px;
 }
 
-.game-button {
-
-}
-
 .list-item {
     color: white;
     margin-left: 50px;
@@ -31,7 +27,7 @@ body {
     width: 10px;
     height: 10px;
     display: inline-block;
-    background-color: yellow; /* */
+    background-color: yellow;
 }
 
 .dead {

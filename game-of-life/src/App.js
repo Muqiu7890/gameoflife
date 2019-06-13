@@ -7,7 +7,7 @@ class App extends Component {
         super(props);
         this.state = {
             cellMatrix: [],  // 细胞初始状态的矩阵
-            rows: 100,  // 矩阵的行
+            rows: 40,  // 矩阵的行
             cols: 100,  // 矩阵的列
             timerId: 0, // 定时器标识
             pause: false //暂停标识
