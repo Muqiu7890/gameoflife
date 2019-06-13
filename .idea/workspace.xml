@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2e1787e2-1d32-44e0-ba88-c302138c4f10" name="Default" comment="" />
+    <list default="true" id="2e1787e2-1d32-44e0-ba88-c302138c4f10" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-of-life/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-of-life/src/App.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -42,8 +45,8 @@
       <file leaf-file-name="App.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game-of-life/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-216">
-              <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+            <state relative-caret-position="144">
+              <caret line="36" column="21" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -84,8 +87,8 @@
         <option value="$PROJECT_DIR$/game-of-life/src/data/case1.js" />
         <option value="$PROJECT_DIR$/game-of-life/test/core.js" />
         <option value="$PROJECT_DIR$/game-of-life/test/index.js" />
-        <option value="$PROJECT_DIR$/game-of-life/src/App.js" />
         <option value="$PROJECT_DIR$/game-of-life/src/index.css" />
+        <option value="$PROJECT_DIR$/game-of-life/src/App.js" />
       </list>
     </option>
   </component>
@@ -170,12 +173,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1560318443515</updated>
-      <workItem from="1560318445844" duration="46875000" />
+      <workItem from="1560318445844" duration="47248000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46875000" />
+    <option name="totallyTimeSpent" value="47248000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
@@ -188,7 +191,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" weight="0.3297491" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" weight="0.31003585" />
+      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.31003585" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" side_tool="true" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -311,8 +314,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game-of-life/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-216">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
+        <state relative-caret-position="144">
+          <caret line="36" column="21" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>

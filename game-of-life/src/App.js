@@ -34,7 +34,7 @@ class App extends Component {
     // 随机函数 0，1
     random() {
         let num = Math.random();
-        if (num > 0.5)
+        if (num > 0.9)
             return 1;
         return 0;
     }
